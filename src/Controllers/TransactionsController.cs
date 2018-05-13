@@ -9,7 +9,6 @@ using Parking;
 namespace ParkingAPI.Controllers
 {
     [Produces("application/json")]
-    //[Route("api/Transactions")]
     public class TransactionsController : Controller
     {
         private ParkingService service { get; set; }
@@ -36,19 +35,19 @@ namespace ParkingAPI.Controllers
         }
 
         // GET: api/Transactions/TransactionsForTheLastMinuteOnCar/5
-        [Route("api/[Controller]/TransactionsForTheLastMinuteOnCar/{id}")]
+        [Route("api/[Controller]/TransactionsForTheLastMinuteOnCar/{number}")]
         [HttpGet("{number}", Name = "Get")]
         public IEnumerable<Transaction> GetTransactionsForTheLastMinuteOnCar(int number)
         {
             return service.GetTransactionsForTheLastMinuteOnCar(number);
         }
 
-        // PUT: api/Transactions/TopUp/5
-        [Route("api/[Controller]/TopUp/{number}")]
-        [HttpPut("{number}")]
-        public void PutTopUp(int number, decimal money)
+        // PUT: api/Transactions/TopUp
+        [Route("api/[Controller]/TopUp")]
+        [HttpPut]
+        public void PutTopUpBalanceCar(int number, decimal money)
         {
             service.PutTopUp(number, money);
         }
-      }
+    }
 }

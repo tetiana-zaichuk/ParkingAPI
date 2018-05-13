@@ -35,7 +35,7 @@ namespace ParkingAPI
         public string GetDetailsOnOneCar(int id)
         {
             var car = _parking.DetailsOnOneCar(id);
-            return "" + car.Id + car.CarType + car.Balance;
+            return "" + car.Id +" "+ car.CarType +" "+ car.Balance;
         }
 
         public void PostCar(CarType type, decimal balance)

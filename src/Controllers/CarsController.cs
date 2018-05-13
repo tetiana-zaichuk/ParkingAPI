@@ -9,7 +9,6 @@ using Parking;
 namespace ParkingAPI.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Cars")]
     public class CarsController : Controller
     {
         private ParkingService service { get; set; }
@@ -19,33 +18,32 @@ namespace ParkingAPI.Controllers
             this.service = service;
         }
 
-        // GET: api/Cars/GetCars //[Route("api/[Controller]/GetCars")]
-        // GET: api/Cars
+        // GET: api/Cars/GetCars 
+        [Route("api/[Controller]/GetCars")]
         [HttpGet]
         public List<Car> GetCars()
         {
-
             return service.GetCars();
         }
 
-        // GET: api/Cars/DetailsOnCar //[Route("api/[Controller]/DetailsOnCar")] //[HttpGet]
-        // GET: api/Cars/5
-        [HttpGet("{number}", Name = "Get")]
+        // GET: api/Cars/DetailsOnCar 
+        [Route("api/[Controller]/DetailsOnCar/{number}")]
+        [HttpGet("{number}")]
         public string GetDetailsOnOneCar(int number)
         {
             return service.GetDetailsOnOneCar(number);
         }
 
-        // POST: api/Cars/AddCar //[Route("api/[Controller]/AddCar")]
-        // POST: api/Cars
+        // POST: api/Cars/AddCar/?type=1&balance=2 
+        [Route("api/[Controller]/AddCar")]
         [HttpPost]
         public void PostCar(CarType type, decimal balance)
         {
             service.PostCar(type, balance);
         }
 
-        // DELETE: api/Cars/DeleteCar //[Route("api/[Controller]/DeleteCar")] [HttpDelete]
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/Cars/DeleteCar/5
+        [Route("api/[Controller]/DeleteCar/{number}")]
         [HttpDelete("{number}")]
         public decimal DeleteCar(int number)
         {
