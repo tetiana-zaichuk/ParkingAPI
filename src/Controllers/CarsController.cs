@@ -48,7 +48,7 @@ namespace ParkingAPI.Controllers
         {
             if (!int.TryParse(numberStr, out var number)) return BadRequest("It must be numbers");
             if (number > Service.GetNumberOfBusyPlaces() || number == 0) return NotFound("The place with this number is empty.");
-            return Ok(Service.DeleteCar(number).Result);
+            return Ok(Service.DeleteCarAsync(number).Result);
         }
     }
 }

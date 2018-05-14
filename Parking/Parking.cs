@@ -44,7 +44,7 @@ namespace Parking
 
         public bool HasFine(int number) => cars[number - 1].Balance < 0;
 
-        public async Task<decimal> RemoveCar(int number)
+        public async Task<decimal> RemoveCarAsync(int number)
         {
             var fine = cars[number - 1].Balance;
             if (HasFine(number))

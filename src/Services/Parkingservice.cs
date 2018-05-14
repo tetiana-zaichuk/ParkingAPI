@@ -21,7 +21,7 @@ namespace ParkingAPI.Services
 
         public void PostCar(Parking.CarType type, decimal balance) => _parking.AddCar(type, balance);
 
-        public async Task<decimal> DeleteCar(int id) => await _parking.RemoveCar(id);
+        public async Task<decimal> DeleteCarAsync(int id) => await _parking.RemoveCarAsync(id);
 
         public int GetNumberOfFreePlaces() => _parking.GetNumberOfFreePlaces();
 

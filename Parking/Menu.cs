@@ -131,7 +131,7 @@ namespace Parking
                         return;
                     }
                 }
-                var balance=_parking.RemoveCar(numberOfCar);
+                var balance=_parking.RemoveCarAsync(numberOfCar);
                 Console.WriteLine($"Balance was {balance}. The car removed.");
             }
         }
