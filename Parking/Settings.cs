@@ -15,6 +15,7 @@ namespace Parking
         };
         public static int ParkingSpace { get; }
         public static int CoefficientFine { get; }
+        public static string Path= "Transactions.log";
 
         static Settings()
         {

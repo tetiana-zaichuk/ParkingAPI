@@ -71,7 +71,7 @@ namespace Parking
             {
                 byte[] array = Encoding.Default.GetBytes("" + DateTime.Now + " " + AmountForTheLastMinute() + " " + transactions.Count + " ");
                 transactions.Clear();
-                using (var fstream = new FileStream("Transactions.log", FileMode.OpenOrCreate))
+                using (var fstream = new FileStream(Settings.Path, FileMode.OpenOrCreate))
                 {
                     fstream.Seek(0, SeekOrigin.End);
                     await fstream.WriteAsync(array, 0, array.Length);
@@ -87,7 +87,7 @@ namespace Parking
         {
             try
             {
-                using (FileStream fstream = File.OpenRead("Transactions.log"))
+                using (FileStream fstream = File.OpenRead(Settings.Path))
                 {
                     byte[] array = new byte[fstream.Length];
                     fstream.Read(array, 0, array.Length);
