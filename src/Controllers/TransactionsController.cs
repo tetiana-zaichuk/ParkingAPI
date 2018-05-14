@@ -6,6 +6,7 @@ using ParkingAPI.Services;
 namespace ParkingAPI.Controllers
 {
     [Produces("application/json")]
+    [Route("api/[Controller]")]
     public class TransactionsController : Controller
     {
         private ParkingService Service { get; }
@@ -13,17 +14,17 @@ namespace ParkingAPI.Controllers
         public TransactionsController(ParkingService service) => Service = service;
 
         // GET: api/Transactions/TransactionsFile
-        [Route("api/[Controller]/TransactionsFile")]
+        [Route("TransactionsFile")]
         [HttpGet]
         public string GetTransactionsFile() => Service.GetTransactionsFile();
 
         // GET: api/Transactions/TransactionsForTheLastMinute
-        [Route("api/[Controller]/TransactionsForTheLastMinute")]
+        [Route("TransactionsForTheLastMinute")]
         [HttpGet]
         public List<Transaction> GetTransactionsForTheLastMinute() => Service.GetTransactionsForTheLastMinute();
 
         // GET: api/Transactions/TransactionsForTheLastMinuteOnCar/5
-        [Route("api/[Controller]/TransactionsForTheLastMinuteOnCar/{numberStr}")]
+        [Route("TransactionsForTheLastMinuteOnCar/{numberStr}")]
         [HttpGet("{numberStr}", Name = "Get")]
         public ObjectResult GetTransactionsForTheLastMinuteOnCar(string numberStr)
         {
@@ -33,7 +34,7 @@ namespace ParkingAPI.Controllers
         }
 
         // PUT: api/Transactions/TopUp/?numberStr=1&moneyStr=250
-        [Route("api/[Controller]/TopUp")]
+        [Route("TopUp")]
         [HttpPut]
         public IActionResult PutTopUpBalanceCar(string numberStr, string moneyStr)
         {

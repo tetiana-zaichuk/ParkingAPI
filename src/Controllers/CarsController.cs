@@ -8,6 +8,7 @@ using ParkingAPI.Services;
 namespace ParkingAPI.Controllers
 {
     [Produces("application/json")]
+    [Route("api/[Controller]")]
     public class CarsController : Controller
     {
         private ParkingService Service { get; }
@@ -15,12 +16,12 @@ namespace ParkingAPI.Controllers
         public CarsController(ParkingService service) => Service = service;
 
         // GET: api/Cars/GetCars 
-        [Route("api/[Controller]/GetCars")]
+        [Route("GetCars")]
         [HttpGet]
         public List<Car> GetCars() => Mapper.Map<List<Parking.Car>, List<Car>>(Service.GetCars());
 
         // GET: api/Cars/DetailsOnCar/1
-        [Route("api/[Controller]/DetailsOnCar/{numberStr}")]
+        [Route("DetailsOnCar/{numberStr}")]
         [HttpGet("{numberStr}")]
         public ObjectResult GetDetailsOnOneCar(string numberStr)
         {
@@ -31,7 +32,7 @@ namespace ParkingAPI.Controllers
         }
 
         // POST: api/Cars/AddCar/?type=1&balanceStr=2.2 
-        [Route("api/[Controller]/AddCar")]
+        [Route("AddCar")]
         [HttpPost]
         public IActionResult PostCar(string type, string balanceStr)
         {
@@ -42,7 +43,7 @@ namespace ParkingAPI.Controllers
         }
 
         // DELETE: api/Cars/DeleteCar/1
-        [Route("api/[Controller]/DeleteCar/{numberStr}")]
+        [Route("DeleteCar/{numberStr}")]
         [HttpDelete("{numberStr}")]
         public ObjectResult DeleteCar(string numberStr)
         {
