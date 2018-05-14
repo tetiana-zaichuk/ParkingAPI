@@ -13,7 +13,7 @@ namespace ParkingAPI.Services
 
         public List<Parking.Car> GetCars() => Parking.Parking.GetCars();
 
-        public string GetDetailsOnOneCar(int id)
+        public string GetCarDetails(int id)
         {
             var car = _parking.DetailsOnOneCar(id);
             return "" + car.Id + " " + car.CarType + " " + car.Balance;

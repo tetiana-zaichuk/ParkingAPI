@@ -123,15 +123,15 @@ namespace Parking
                 var numberOfCar = GetAndValidateInputInt(1, busyPlaces);
                 if (_parking.HasFine(numberOfCar))
                 {
-                    Console.WriteLine("The car has a fine. Would you like to top up balance (press any key) or no (press 0)?");
-                    var i = int.Parse(Console.ReadLine());
+                    Console.WriteLine("The car has a fine. Would you like to top up balance (press any number key except 0) or no (press 0)?");
+                    var i = GetAndValidateInputInt(0, 9);
                     if (i == 0)
                     {
                         Console.WriteLine("The car was not removed.");
                         return;
                     }
                 }
-                var balance=_parking.RemoveCarAsync(numberOfCar);
+                var balance=_parking.RemoveCarAsync(numberOfCar).Result;
                 Console.WriteLine($"Balance was {balance}. The car removed.");
             }
         }
