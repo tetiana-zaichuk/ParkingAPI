@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Parking;
 
@@ -11,7 +7,7 @@ namespace ParkingAPI.Controllers
     [Produces("application/json")]
     public class TransactionsController : Controller
     {
-        private ParkingService service { get; set; }
+        private ParkingService service { get; }
 
         public TransactionsController(ParkingService service)
         {
@@ -35,19 +31,24 @@ namespace ParkingAPI.Controllers
         }
 
         // GET: api/Transactions/TransactionsForTheLastMinuteOnCar/5
-        [Route("api/[Controller]/TransactionsForTheLastMinuteOnCar/{number}")]
-        [HttpGet("{number}", Name = "Get")]
-        public IEnumerable<Transaction> GetTransactionsForTheLastMinuteOnCar(int number)
+        [Route("api/[Controller]/TransactionsForTheLastMinuteOnCar/{numberStr}")]
+        [HttpGet("{numberStr}", Name = "Get")]
+        public ObjectResult GetTransactionsForTheLastMinuteOnCar(string numberStr)
         {
-            return service.GetTransactionsForTheLastMinuteOnCar(number);
+            if (!int.TryParse(numberStr, out var number)) return BadRequest("It must be numbers");
+            if (number > service.GetNumberOfBusyPlaces() || number == 0) return NotFound("The place with this number is empty.");
+            return Ok(service.GetTransactionsForTheLastMinuteOnCar(number));
         }
 
-        // PUT: api/Transactions/TopUp
+        // PUT: api/Transactions/TopUp/?numberStr=1&moneyStr=250
         [Route("api/[Controller]/TopUp")]
         [HttpPut]
-        public void PutTopUpBalanceCar(int number, decimal money)
+        public IActionResult PutTopUpBalanceCar(string numberStr, string moneyStr)
         {
+            if (!decimal.TryParse(moneyStr, out var money) || !int.TryParse(numberStr, out var number)) return BadRequest();
+            if (number > service.GetNumberOfBusyPlaces() || number == 0) return NotFound("The place with this number is empty.");
             service.PutTopUp(number, money);
+            return Ok();
         }
     }
 }

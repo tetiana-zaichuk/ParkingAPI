@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Parking;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ParkingAPI.Controllers
 {
@@ -12,7 +6,7 @@ namespace ParkingAPI.Controllers
     // [Route("api/Parking")]
     public class ParkingController : Controller
     {
-        private ParkingService service { get; set; }
+        private ParkingService service { get; }
 
         public ParkingController(ParkingService service)
         {

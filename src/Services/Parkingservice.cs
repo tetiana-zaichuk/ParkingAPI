@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Parking;
 
 namespace ParkingAPI
@@ -18,7 +7,6 @@ namespace ParkingAPI
     public class ParkingService
     {
         private readonly Parking.Parking _parking;
-        
 
         public ParkingService()
         {
@@ -27,14 +15,13 @@ namespace ParkingAPI
 
         public List<Parking.Car> GetCars()
         {
-            var cars = Parking.Parking.GetCars();
-            return cars;
+            return Parking.Parking.GetCars(); 
         }
 
         public string GetDetailsOnOneCar(int id)
         {
             var car = _parking.DetailsOnOneCar(id);
-            return "" + car.Id +" "+ car.CarType +" "+ car.Balance;
+            return "" + car.Id + " " + car.CarType + " " + car.Balance;
         }
 
         public void PostCar(Parking.CarType type, decimal balance)
