@@ -13,22 +13,21 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Parking;
 
-using Parking = Parking.Parking;
-
 namespace ParkingAPI
 {
     public class ParkingService
     {
-        private readonly global::Parking.Parking _parking;
+        private readonly Parking.Parking _parking;
+        
 
         public ParkingService()
         {
-            _parking = global::Parking.Parking.GetParking();
+            _parking = Parking.Parking.GetParking();
         }
 
-        public List<Car> GetCars()
+        public List<Parking.Car> GetCars()
         {
-            List<Car> cars = global::Parking.Parking.GetCars();
+            var cars = Parking.Parking.GetCars();
             return cars;
         }
 
@@ -38,7 +37,7 @@ namespace ParkingAPI
             return "" + car.Id +" "+ car.CarType +" "+ car.Balance;
         }
 
-        public void PostCar(CarType type, decimal balance)
+        public void PostCar(Parking.CarType type, decimal balance)
         {
             _parking.AddCar(type, balance);
         }
@@ -61,7 +60,7 @@ namespace ParkingAPI
 
         public int GetNumberOfBusyPlaces()
         {
-            return global::Parking.Parking.GetNumberOfBusyPlaces();
+            return Parking.Parking.GetNumberOfBusyPlaces();
         }
 
         public string GetTransactionsFile()
