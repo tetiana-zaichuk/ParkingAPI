@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Parking;
 
 namespace ParkingAPI.Services
@@ -20,11 +21,7 @@ namespace ParkingAPI.Services
 
         public void PostCar(Parking.CarType type, decimal balance) => _parking.AddCar(type, balance);
 
-        public decimal DeleteCar(int id)
-        {
-            _parking.RemoveCar(id, out var balance);
-            return balance;
-        }
+        public async Task<decimal> DeleteCar(int id) => await _parking.RemoveCar(id);
 
         public int GetNumberOfFreePlaces() => _parking.GetNumberOfFreePlaces();
 

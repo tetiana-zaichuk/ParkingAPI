@@ -44,15 +44,16 @@ namespace Parking
 
         public bool HasFine(int number) => cars[number - 1].Balance < 0;
 
-        public void RemoveCar(int number, out decimal fine)
+        public async Task<decimal> RemoveCar(int number)
         {
-            fine = cars[number - 1].Balance;
+            var fine = cars[number - 1].Balance;
             if (HasFine(number))
             {
                 TopUp(number, Math.Abs(cars[number - 1].Balance));
-                CollectPaymentAsync(cars[number - 1]);
+                await CollectPaymentAsync(cars[number - 1]);
             }
             cars.Remove(cars[number - 1]);
+            return fine;
         }
         public decimal TopUp(int value, decimal money) => cars[value - 1].Balance += money;
 
