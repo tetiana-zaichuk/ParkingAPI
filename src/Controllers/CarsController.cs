@@ -2,26 +2,22 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using ParkingAPI.Models;
+using ParkingAPI.Services;
 
 namespace ParkingAPI.Controllers
 {
     [Produces("application/json")]
     public class CarsController : Controller
     {
-        private ParkingService service { get; }
+        private ParkingService Service { get; }
 
-        public CarsController(ParkingService service)
-        {
-            this.service = service;
-        }
+        public CarsController(ParkingService service) => Service = service;
 
         // GET: api/Cars/GetCars 
         [Route("api/[Controller]/GetCars")]
         [HttpGet]
-        public List<Car> GetCars()
-        {
-            return Mapper.Map<List<Parking.Car>, List<Car>>(service.GetCars());
-        }
+        public List<Car> GetCars() => Mapper.Map<List<Parking.Car>, List<Car>>(Service.GetCars());
 
         // GET: api/Cars/DetailsOnCar/1
         [Route("api/[Controller]/DetailsOnCar/{numberStr}")]
@@ -30,8 +26,8 @@ namespace ParkingAPI.Controllers
         {
 
             if (!int.TryParse(numberStr, out var number)) return BadRequest("It must be numbers");
-            if (number > service.GetNumberOfBusyPlaces() || number==0) return NotFound("The place with this number is empty.");
-            return Ok(service.GetDetailsOnOneCar(number));
+            if (number > Service.GetNumberOfBusyPlaces() || number==0) return NotFound("The place with this number is empty.");
+            return Ok(Service.GetDetailsOnOneCar(number));
         }
 
         // POST: api/Cars/AddCar/?type=1&balanceStr=2.2 
@@ -39,9 +35,9 @@ namespace ParkingAPI.Controllers
         [HttpPost]
         public IActionResult PostCar(string type, string balanceStr)
         {
-            bool isValid = Int32.TryParse(type, out var i) ? Enum.IsDefined(typeof(CarType), i) : Enum.IsDefined(typeof(CarType), type);
+            var isValid = Int32.TryParse(type, out var i) ? Enum.IsDefined(typeof(CarType), i) : Enum.IsDefined(typeof(CarType), type);
             if (!isValid || !decimal.TryParse(balanceStr, out var balance)) return BadRequest();
-            service.PostCar(Mapper.Map<CarType, Parking.CarType>(Enum.Parse<CarType>(type)), balance);
+            Service.PostCar(Mapper.Map<CarType, Parking.CarType>(Enum.Parse<CarType>(type)), balance);
             return Ok();
         }
 
@@ -51,8 +47,8 @@ namespace ParkingAPI.Controllers
         public ObjectResult DeleteCar(string numberStr)
         {
             if (!int.TryParse(numberStr, out var number)) return BadRequest("It must be numbers");
-            if (number > service.GetNumberOfBusyPlaces() || number == 0) return NotFound("The place with this number is empty.");
-            return Ok(service.DeleteCar(number));
+            if (number > Service.GetNumberOfBusyPlaces() || number == 0) return NotFound("The place with this number is empty.");
+            return Ok(Service.DeleteCar(number));
         }
     }
 }

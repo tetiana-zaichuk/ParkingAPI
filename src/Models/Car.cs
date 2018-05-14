@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ParkingAPI
+namespace ParkingAPI.Models
 {
     public class Car
     {
