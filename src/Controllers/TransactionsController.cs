@@ -13,18 +13,18 @@ namespace ParkingAPI.Controllers
 
         public TransactionsController(ParkingService service) => Service = service;
 
-        // GET: api/Transactions/TransactionsFile
-        [Route("TransactionsFile")]
+        // GET: api/Transactions/File
+        [Route("File")]
         [HttpGet]
         public string GetTransactionsFile() => Service.GetTransactionsFile();
 
-        // GET: api/Transactions/TransactionsForTheLastMinute
-        [Route("TransactionsForTheLastMinute")]
+        // GET: api/Transactions/LastMinute
+        [Route("LastMinute")]
         [HttpGet]
         public List<Transaction> GetTransactionsForTheLastMinute() => Service.GetTransactionsForTheLastMinute();
 
-        // GET: api/Transactions/TransactionsForTheLastMinuteOnCar/5
-        [Route("TransactionsForTheLastMinuteOnCar/{carNumber}")]
+        // GET: api/Transactions/LastMinuteOnCar/5
+        [Route("LastMinuteOnCar/{carNumber}")]
         [HttpGet("{carNumber}", Name = "Get")]
         public ObjectResult GetTransactionsForTheLastMinuteOnCar(string carNumber)
         {

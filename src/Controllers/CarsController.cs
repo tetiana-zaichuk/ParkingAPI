@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using ParkingAPI.Models;
@@ -15,13 +18,11 @@ namespace ParkingAPI.Controllers
 
         public CarsController(ParkingService service) => Service = service;
 
-        // GET: api/Cars/GetCars 
-        [Route("GetCars")]
+        // GET: api/Cars
         [HttpGet]
         public List<Car> GetCars() => Mapper.Map<List<Parking.Car>, List<Car>>(Service.GetCars());
 
-        // GET: api/Cars/CarDetails/1
-        [Route("CarDetails/{carNumber}")]
+        // GET: api/Cars/1
         [HttpGet("{carNumber}")]
         public ObjectResult GetCarDetails(string carNumber)
         {
@@ -38,36 +39,36 @@ namespace ParkingAPI.Controllers
             return Ok(Service.GetCarDetails(number));
         }
 
-        // POST: api/Cars/AddCar/?type=1&balanceStr=2.2 
-        [Route("AddCar")]
+        // POST: api/Cars
         [HttpPost]
-        public IActionResult AddCar(string type, string balanceStr)
+        public IActionResult AddCar([FromBody]Car car)
         {
-            var isValid = Int32.TryParse(type, out var i) ? Enum.IsDefined(typeof(CarType), i) : Enum.IsDefined(typeof(CarType), type);
-            if (!isValid || !decimal.TryParse(balanceStr, out var balance))
+            var type = car.CarType.ToString();
+            var isValid = Int32.TryParse(type, out var i) ? Enum.IsDefined(typeof(CarType), i) : Enum.IsDefined(typeof(CarType), car.CarType);
+            if (!isValid || !decimal.TryParse(car.Balance.ToString(), out var balance))
             {
-                return BadRequest();
+                return BadRequest(car.Balance);
             }
-
             Service.PostCar(Mapper.Map<CarType, Parking.CarType>(Enum.Parse<CarType>(type)), balance);
             return Ok();
         }
 
-        // DELETE: api/Cars/DeleteCar/1
-        [Route("DeleteCar/{carNumber}")]
+        // DELETE: api/Cars/1
         [HttpDelete("{carNumber}")]
-        public ObjectResult DeleteCar(string carNumber)
+        public async Task<HttpResponseMessage> DeleteCar(string carNumber)
         {
             if (!int.TryParse(carNumber, out var number))
             {
-                return BadRequest("It must be numbers");
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
             if (number > Service.GetNumberOfBusyPlaces() || number == 0)
             {
-                return NotFound("The place with this number is empty.");
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
-            return Ok(Service.DeleteCarAsync(number).Result);
+
+            await Service.DeleteCarAsync(number);
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
     }
 }
